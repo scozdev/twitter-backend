@@ -18,6 +18,18 @@ This is the backend repository. If you are looking for the frontend repository, 
 - npm
 - mongodb
 
+## :scroll: Todo
+
+- [x] Login/Signup
+- [x] New tweet
+- [x] Like
+- [x] Comment
+- [x] View Profile
+- [x] Light theme / Dim theme / Dark theme
+- [ ] Search
+- [ ] Edit Profile
+- [ ] Retweet
+
 ## :cd: How to run local
 
 At the root of your project create an .env file with the following contents:
