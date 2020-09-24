@@ -57,8 +57,8 @@ exports.getPost = asyncHandler(async (req, res, next) => {
   const likes = post.likes.map((like) => like.toString());
   post.isLiked = likes.includes(req.user.id);
 
-  const retweets = post.retweets.map((retweet) => retweet.toString());
-  post.isRetweeted = retweets.includes(req.user.id);
+  const retweets = post.retweets?.map((retweet) => retweet.toString());
+  post.isRetweeted = retweets?.includes(req.user.id);
 
   post.comments.forEach((comment) => {
     comment.isCommentMine = false;
