@@ -27,8 +27,8 @@ This is the backend repository. If you are looking for the frontend repository, 
 - [x] View Profile
 - [x] Light theme / Dim theme / Dark theme
 - [x] Search
-- [ ] Edit Profile
-- [ ] Retweet
+- [x] Edit Profile
+- [x] Retweet
 
 ## :cd: How to run local
 
