@@ -26,7 +26,7 @@ This is the backend repository. If you are looking for the frontend repository, 
 - [x] Comment
 - [x] View Profile
 - [x] Light theme / Dim theme / Dark theme
-- [ ] Search
+- [x] Search
 - [ ] Edit Profile
 - [ ] Retweet
 
@@ -40,7 +40,10 @@ JWT_EXPIRE=30d // or any reasonable value that you prefer
 DATABASE_URL=<YOUR_DB_CONNECTION_URI>
 ```
 
-Then run <code>npm i</code> and <code>npm start</code> to see the youtube clone in action
+```
+- npm install  
+- npm run start
+```
 
 ## UI
 

@@ -21,7 +21,11 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
 exports.getUser = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ username: req.params.username })
     .select("-password")
-    .populate({ path: "posts", select: "files tags isLiked likes likesCount comments createdAt caption commentsCount likesCount" })
+    .populate({
+      path: "posts", select: "files tags user retweets retweetCount isLiked likes likesCount comments createdAt caption commentsCount likesCount",
+      populate: { path: "user", select: "avatar fullname username" }
+
+    })
     .populate({ path: "savedPosts", select: "files commentsCount likesCount" })
     .populate({ path: "followers", select: "avatar username fullname" })
     .populate({ path: "following", select: "avatar username fullname" })
@@ -34,6 +38,26 @@ exports.getUser = asyncHandler(async (req, res, next) => {
       statusCode: 404,
     });
   }
+
+  user.posts.username = req.params.username
+
+  user.posts.forEach((post) => {
+    post.isLiked = false;
+    const likes = post.likes.map((like) => like.toString());
+    if (likes.includes(req.user.id)) {
+      post.isLiked = true;
+    }
+
+    post.isRetweeted = false;
+    const retweets = post.retweets.map((retweet) => retweet.toString());
+    if (retweets.includes(req.user.id)) {
+      post.isRetweeted = true;
+    }
+
+
+
+  })
+
 
   user.isFollowing = false;
   const followers = user.followers.map((follower) => follower._id.toString());
@@ -152,6 +176,12 @@ exports.feed = asyncHandler(async (req, res, next) => {
       post.isLiked = true;
     }
 
+    post.isRetweeted = false;
+    const retweets = post.retweets.map((retweet) => retweet.toString());
+    if (retweets.includes(req.user.id)) {
+      post.isRetweeted = true;
+    }
+
     // is the loggedin saved this post
     post.isSaved = false;
     const savedPosts = req.user.savedPosts.map((post) => post.toString());
@@ -175,4 +205,21 @@ exports.feed = asyncHandler(async (req, res, next) => {
   });
 
   res.status(200).json({ success: true, data: posts });
+});
+
+exports.editUser = asyncHandler(async (req, res, next) => {
+  const { fullname, bio } = req.body;
+
+  const user = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      $set: { fullname, bio },
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json({ success: true, data: user });
 });

@@ -19,7 +19,12 @@ const PostSchema = new mongoose.Schema({
     validate: (v) => v === null || v.length > 0,
   },
   likes: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
+  retweets: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
   likesCount: {
+    type: Number,
+    default: 0,
+  },
+  retweetCount: {
     type: Number,
     default: 0,
   },

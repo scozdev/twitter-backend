@@ -52,18 +52,14 @@ exports.getPost = asyncHandler(async (req, res, next) => {
     });
   }
 
-  // is the post belongs to loggedin user?
   post.isMine = req.user.id === post.user._id.toString();
 
-  // is the loggedin user liked the post??
   const likes = post.likes.map((like) => like.toString());
   post.isLiked = likes.includes(req.user.id);
 
-  // is the loggedin user liked the post??
-  const savedPosts = req.user.savedPosts.map((post) => post.toString());
-  post.isSaved = savedPosts.includes(req.params.id);
+  const retweets = post.retweets.map((retweet) => retweet.toString());
+  post.isRetweeted = retweets.includes(req.user.id);
 
-  // is the comment on the post belongs to the logged in user?
   post.comments.forEach((comment) => {
     comment.isCommentMine = false;
 
@@ -115,6 +111,46 @@ exports.toggleLike = asyncHandler(async (req, res, next) => {
     post.likes.push(req.user.id);
     post.likesCount = post.likesCount + 1;
     await post.save();
+  }
+
+  res.status(200).json({ success: true, data: {} });
+});
+
+exports.toggleRetweet = asyncHandler(async (req, res, next) => {
+
+  const post = await Post.findById(req.params.id);
+
+  if (!post) {
+    return next({
+      message: `No post found for id ${req.params.id}`,
+      statusCode: 404,
+    });
+  }
+
+  if (post.retweets.includes(req.user.id)) {
+
+    const index = post.retweets.indexOf(req.user.id);
+    post.retweets.splice(index, 1);
+    post.retweetCount = post.retweetCount - 1;
+
+    await post.save();
+
+    await User.findByIdAndUpdate(req.user.id, {
+      $pull: { posts: req.params.id },
+      $inc: { postCount: -1 },
+    });
+
+  } else {
+
+    post.retweets.push(req.user.id)
+    post.retweetCount = post.retweetCount + 1;
+
+    await post.save();
+
+    await User.findByIdAndUpdate(req.user.id, {
+      $push: { posts: post._id },
+      $inc: { postCount: 1 },
+    });
   }
 
   res.status(200).json({ success: true, data: {} });

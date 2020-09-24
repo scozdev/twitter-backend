@@ -7,6 +7,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: false
   },
+  fullname: {
+    type: String,
+    required: false,
+  },
   username: {
     type: String,
     required: [true, "Please enter your username"],
