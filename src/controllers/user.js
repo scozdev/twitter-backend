@@ -49,8 +49,8 @@ exports.getUser = asyncHandler(async (req, res, next) => {
     }
 
     post.isRetweeted = false;
-    const retweets = post.retweets?.map((retweet) => retweet.toString());
-    if (retweets?.includes(req.user.id)) {
+    const retweets = post.retweets && post.retweets.map((retweet) => retweet.toString());
+    if (retweets && retweets.includes(req.user.id)) {
       post.isRetweeted = true;
     }
 
@@ -177,8 +177,8 @@ exports.feed = asyncHandler(async (req, res, next) => {
     }
 
     post.isRetweeted = false;
-    const retweets = post.retweets?.map((retweet) => retweet.toString());
-    if (retweets?.includes(req.user.id)) {
+    const retweets = post.retweets && post.retweets.map((retweet) => retweet.toString());
+    if (retweets && retweets.includes(req.user.id)) {
       post.isRetweeted = true;
     }
 
