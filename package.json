@@ -4,8 +4,9 @@
   "description": "Twitter backend using Express, MongoDB",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server",
-    "dev": "nodemon src/server"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest"
   },
   "license": "MIT",
   "dependencies": {
@@ -13,8 +14,16 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-rate-limit": "^5.2.3",
+    "http-status": "^1.5.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.19",
-    "nodemon": "^2.0.4"
+    "jwt-decode": "^3.1.2",
+    "mongoose": "^5.9.19"
+  },
+  "devDependencies": {
+    "faker": "^5.1.0",
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.6",
+    "supertest": "^6.0.1"
   }
 }
