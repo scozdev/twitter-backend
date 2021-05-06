@@ -37,7 +37,7 @@ At the root of your project create an .env file with the following contents:
 ```javascript
 JWT_SECRET=<YOUR_SECRET>
 JWT_EXPIRE=30d // or any reasonable value that you prefer
-DATABASE_URL=<YOUR_DB_CONNECTION_URI>
+MONGOURI=<YOUR_DB_CONNECTION_URI>
 ```
 
 ```
